@@ -19,8 +19,14 @@ void CleanUp(void);
 
 int x;
 int y;
-objPos item1 = objPos(WIDTH/2,HEIGHT/2,'@');
-objPos item2 = objPos(x,y,)
+objPos drawBoard{0,0,0};
+objPos *player = new objPos(WIDTH/2,HEIGHT/2,'@');
+objPos *item1 = new objPos(1,1,'A');
+objPos *item2 = new objPos(2,2,'B');
+objPos *item3 = new objPos(3,3,'C');
+objPos *item4 = new objPos(4,4,'D');
+objPos *item5 = new objPos(5,5,'E');
+
 
 int main(void)
 {
@@ -61,34 +67,38 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
-     for (y = 0; y < HEIGHT; y++) {
-        for (x = 0; x < WIDTH; x++) {
-            if (x == 0 || x == WIDTH - 1 || y == 0 || y == HEIGHT - 1) {
-                printf("%c", '#');
+     for (drawBoard.y = 0; drawBoard.y < HEIGHT; (drawBoard.y)++) {
+        for (drawBoard.x = 0; drawBoard.x < WIDTH; (drawBoard.x)++) {
+            if (drawBoard.x == 0 || drawBoard.x == WIDTH - 1 || drawBoard.y == 0 || drawBoard.y == HEIGHT - 1) {
+                cout << '#';
             }
-            else if (y == player.y && x == player.x) {
-                printf("%c", player.symbol);
+            else if (drawBoard.isPosEqual(player)) {
+                cout << player ->getSymbol();
             }
-             else if (y == itemBin[0].y && x == itemBin[0].x) {
-                printf("%c", itemBin[0].symbol);
+            else if (drawBoard.isPosEqual(item1)){
+                cout << item1 -> getSymbol();
             }
-            else if (y == itemBin[1].y && x == itemBin[1].x) {
-                printf("%c", itemBin[1].symbol);
+             else if (drawBoard.isPosEqual(item2)) {
+                cout << item2 -> getSymbol();
             }
-             else if (y == itemBin[2].y && x == itemBin[2].x) {
-                printf("%c", itemBin[2].symbol);
+            else if (drawBoard.isPosEqual(item3)) {
+                 cout << item3 -> getSymbol();
+
             }
-             else if (y == itemBin[3].y && x == itemBin[3].x) {
-                printf("%c", itemBin[3].symbol);
+             else if (drawBoard.isPosEqual(item4)) {
+                    cout << item4 -> getSymbol();
+
             }
-             else if (y == itemBin[4].y && x == itemBin[4].x) {
-                printf("%c", itemBin[4].symbol);
+             else if (drawBoard.isPosEqual(item5)) {
+                cout << item5 -> getSymbol();
+
             }
             else {
-                printf(" ");
+                cout << " ";
+                 
             }
         }
-        printf("\n");
+        cout << endl;
     }   
 
 }

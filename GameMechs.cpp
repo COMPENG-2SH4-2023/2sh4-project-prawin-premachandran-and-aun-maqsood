@@ -16,6 +16,8 @@ GameMechs::GameMechs(int boardX, int boardY)
 
 bool GameMechs::getExitFlagStatus()
 {
+    exitFlag = 0;
+    return exitFlag;
 
 }
 

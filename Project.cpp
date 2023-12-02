@@ -1,12 +1,86 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "Player.h"
+#include "GameMechs.h"
+
 #define WIDTH 20
 #define HEIGHT 10
 
 using namespace std;
 
 #define DELAY_CONST 100000
+
+// private:
+//     char input;
+//     bool exitFlag;
+//     bool loseFlag;
+//     int score;
+//     int boardSizeX;
+//     int boardSizeY;
+
+//     struct objPos foodPos;
+
+// public:
+//     // Constructor
+//     gameMechanism() {
+//         boardSizeX = 30;
+//         boardSizeY = 15;
+//         exitFlag = false;
+//         loseFlag = false;
+//         score = 0;
+//     }
+
+//     gameMechanism(int boardX, int boardY) {
+//         boardSizeX = boardX;
+//         boardSizeY = boardY;
+//         exitFlag = false;
+//         loseFlag = false;
+//         score = 0;
+//         generateFood();
+//     }
+
+//     ~gameMechanism() {
+//         // Destructor
+//     }
+
+//     // Getter and setter methods
+//     bool getExitFlagStatus() { return exitFlag; }
+//     void setExitTrue() { exitFlag = true; }
+
+//     bool getLoseFlagStatus() { return loseFlag; }
+//     void setLoseFlag() { loseFlag = true; }
+
+//     char getInput(){
+//         if (MacUILib_hasChar()) {
+//             input = MacUILib_getChar();
+//         } 
+//         return input; 
+//     }
+//     void setInput(char thisInput){ input = thisInput; }
+
+//     void clearInput(){ input = 0; }
+
+//     int getBoardSizeX() { return boardSizeX; }
+//     int getBoardSizeY() { return boardSizeY; }
+
+//     int getScore() { return score; }
+//     void incrementScore() { score++; }
+    
+//     void generateFood(objPos blockOff) {
+//         srand(time(NULL))
+//         do{
+//             foodPos.x = rand() % (boardSizeX - 2) + 1;
+//             foodPos.y = rand() % (boardSizeY - 2) + 1;
+//             foodPos.symbol = ('F');
+//         }
+//         while (foodPos == blockOff){}
+//     }
+
+//     void getFoodPos(objPos &returnPos) {
+//         returnPos = foodPos;
+//     }
+
 
 bool exitFlag;
 
@@ -20,6 +94,7 @@ void CleanUp(void);
 int x;
 int y;
 objPos drawBoard{0,0,0};
+
 
 Player *player = new player();
 objPos *item1 = new objPos(1,1,'A');

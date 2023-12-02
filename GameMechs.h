@@ -21,16 +21,22 @@ class GameMechs
     private:
         char input;
         bool exitFlag;
+        bool loseFlag;
         
         int boardSizeX;
         int boardSizeY;
+        int score;
+        struct objPos foodPos;
 
     public:
         GameMechs();
         GameMechs(int boardX, int boardY);
         
         bool getExitFlagStatus();
+        bool getLoseFlagStatus();
         void setExitTrue();
+        void setLoseFlag();
+        void generateFood();
 
         char getInput();
         void setInput(char this_input);
@@ -38,6 +44,10 @@ class GameMechs
 
         int getBoardSizeX();
         int getBoardSizeY();
+        int getScore();
+        int incrementScore();
+
+        void getFoodPos();
       
 
 };

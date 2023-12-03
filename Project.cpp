@@ -37,7 +37,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag)  
+    while(!exitFlag)  
     {
         GetInput();
         RunLogic();

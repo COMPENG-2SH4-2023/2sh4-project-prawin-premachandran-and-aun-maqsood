@@ -1,15 +1,16 @@
 #include "Player.h"
 #include "GameMechs.h"
-#define WIDTH 20
-#define HEIGHT 10
+#include "MacUILib.h"
 
+#define DELAY_CONST 1000000
 
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
-    playerPos.x = WIDTH /2 ;
-    playerPos.y = HEIGHT /2;
+    playerPos.x = mainGameMechsRef->getBoardSizeX() / 2;
+    playerPos.y = mainGameMechsRef->getBoardSizeY() / 2;
     playerPos.symbol = '@';
+
     myDir = STOP;
 
 
@@ -128,6 +129,7 @@ void Player::movePlayer()
             default:
                 break;
         }
+        MacUILib_Delay(DELAY_CONST);
     }
 
     

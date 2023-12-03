@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DELAY_CONST 100000
+#define DELAY_CONST 10000000
 
 bool exitFlag = false;
 
@@ -39,10 +39,14 @@ int main(void)
 
     while(!exitFlag)  
     {
+        LoopDelay();
+        player->getPlayerPos(playerPos);
+        LoopDelay();
         GetInput();
         RunLogic();
         DrawScreen();
         LoopDelay();
+        cout << "exitFlag: " << exitFlag << endl;
     }
 
     CleanUp();
@@ -61,22 +65,21 @@ void Initialize(void)
 
 void GetInput(void)
 {
-    char input = gameMechs -> getInput(); 
-    gameMechs -> setInput(input);
-  
-   
+    gameMechs->clearInput();  // Move the clearInput call to the beginning
+    char input = gameMechs->getInput(); 
+    gameMechs->setInput(input);
 }
 
 void RunLogic(void)
 {
-    player -> updatePlayerDir();
-    gameMechs -> clearInput();
-    player -> movePlayer();
-    
+    player->updatePlayerDir();
+    // Remove gameMechs->clearInput(); from here
+    player->movePlayer();
 }
 
 void DrawScreen(void)
 {
+    cout << "Player position: (" << playerPos.x << ", " << playerPos.y << ")" << endl;
     MacUILib_clearScreen(); 
      for (drawBoard.y = 0; drawBoard.y < HEIGHT; (drawBoard.y)++) {
         for (drawBoard.x = 0; drawBoard.x < WIDTH; (drawBoard.x)++) {

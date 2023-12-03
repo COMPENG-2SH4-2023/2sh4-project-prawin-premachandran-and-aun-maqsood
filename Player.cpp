@@ -1,10 +1,15 @@
 #include "Player.h"
 #include "GameMechs.h"
+#define WIDTH 20
+#define HEIGHT 10
 
 
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
+    playerPos.x = WIDTH /2 ;
+    playerPos.y = HEIGHT /2;
+    playerPos.symbol = '@';
     myDir = STOP;
 
 
@@ -21,14 +26,15 @@ Player::~Player()
 
 void Player::getPlayerPos(objPos &returnPos)
 {
+    
     returnPos = playerPos;
     // return the reference to the playerPos arrray list
 }
 
 void Player::updatePlayerDir()
 {
-    char input = mainGameMechsRef -> input;
-    bool exitFlag = mainGameMechsRef -> exitFlag;
+    char input = mainGameMechsRef -> getInput();
+    bool exitFlag = mainGameMechsRef -> getExitFlagStatus();
 
       if (input != 0) // if not null character
     {

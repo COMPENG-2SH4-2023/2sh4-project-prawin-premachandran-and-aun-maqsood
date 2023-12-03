@@ -23,13 +23,13 @@ GameMechs::GameMechs(int boardX, int boardY)
 // do you need a destructor?
 
 // GameMechs::~GameMechs() {
-// // Destructor
+//         // Destructor
 // }
 
 
 bool GameMechs::getExitFlagStatus()
 {
-    exitFlag = 0;
+    exitFlag = false;
     return exitFlag;
 }
 
@@ -71,9 +71,9 @@ void GameMechs::clearInput()
     input = 0;
 }
 
-int GameMechs::getScore() { return score; }
+// int GameMechs::getScore() { return score; }
 
-void GameMechs::incrementScore() { score++; }
+// void GameMechs::incrementScore() { score++; }
 
     
 // void GameMechs::generateFood(objPos blockOff) {

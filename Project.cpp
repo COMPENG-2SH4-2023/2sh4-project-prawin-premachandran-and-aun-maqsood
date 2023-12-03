@@ -49,10 +49,15 @@ int main(void)
         RunLogic();
         DrawScreen();
         LoopDelay();
-        cout << "exitFlag: " << exitFlag << endl;
+
+        //end game message
+        if (exitFlag == 1){
+            cout << "Game Over! Thank you for playing :)" << endl;
+            MacUILib_Delay(1000*DELAY_CONST);
+        } 
     }
 
-    CleanUp();
+    //CleanUp();
 
 }
 
@@ -71,30 +76,32 @@ void Initialize(void)
 
 void GetInput(void)
 {
-    gameMechs->clearInput();  // Move the clearInput call to the beginning
-    char input = gameMechs->getInput(); 
+    gameMechs->clearInput();
+    char input = gameMechs->getInput();
+    exitFlag = gameMechs->getExitFlagStatus();  // Update exitFlag using the return value
     gameMechs->setInput(input);
 }
 
 void RunLogic(void)
 {
     player->updatePlayerDir();
-    // Remove gameMechs->clearInput(); from here
+
     player->movePlayer();
 
     if (playerPos.isPosEqual(&foodPos)){
         gameMechs->generateFood(foodPos);
+        gameMechs->incrementScore();
     }
 }
 
 void DrawScreen(void)
 {
-// Ensure foodPos is initialized and updated
-    // gameMechs->generateFood(playerPos);
-    // objPos foodPos;
-    gameMechs->getFoodPos(foodPos);
+    // prints and updates score
+    cout << "Score: " << gameMechs->getScore() << endl;
 
     cout << "Player position: (" << playerPos.x << ", " << playerPos.y << ")" << endl;
+
+    // Draws game board screen (20 x 10)
     MacUILib_clearScreen(); 
     for (drawBoard.y = 0; drawBoard.y < HEIGHT; (drawBoard.y)++) {
         for (drawBoard.x = 0; drawBoard.x < WIDTH; (drawBoard.x)++) {

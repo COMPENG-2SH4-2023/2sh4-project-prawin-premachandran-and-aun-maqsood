@@ -46,7 +46,7 @@ void Player::updatePlayerDir()
         switch (input)
         {
             case ' ': // exit
-                exitFlag = 1;
+                mainGameMechsRef->setExitTrue();
                 break;
 
             case 'W':

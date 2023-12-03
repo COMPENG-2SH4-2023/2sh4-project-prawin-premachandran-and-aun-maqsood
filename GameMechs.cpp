@@ -1,3 +1,4 @@
+#include <iostream>
 #include "GameMechs.h"
 #include "MacUILib.h"
 
@@ -32,7 +33,6 @@ GameMechs::GameMechs(int boardX, int boardY)
     exitFlag = false;
     loseFlag = false;
     score = 0;
-    // generateFood();
 }
 
 // do you need a destructor?
@@ -44,8 +44,9 @@ GameMechs::GameMechs(int boardX, int boardY)
 
 bool GameMechs::getExitFlagStatus()
 {
-    exitFlag = false;
-    return exitFlag;
+    bool status = exitFlag;
+    exitFlag = false; // Reset exitFlag to false
+    return status;
 }
 
 bool GameMechs::getLoseFlagStatus() { return loseFlag; }
@@ -72,6 +73,7 @@ int GameMechs::getBoardSizeY()
 void GameMechs::setExitTrue()
 {
     exitFlag = true;
+    // std::cout << "Game over!" << std::endl;
 }
 
 void GameMechs::setLoseFlag() { loseFlag = true; }
@@ -86,9 +88,9 @@ void GameMechs::clearInput()
     input = 0;
 }
 
-// int GameMechs::getScore() { return score; }
+int GameMechs::getScore() { return score; }
 
-// void GameMechs::incrementScore() { score++; }
+void GameMechs::incrementScore() { score++; }
 
     
 // void GameMechs::generateFood(objPos blockOff) {

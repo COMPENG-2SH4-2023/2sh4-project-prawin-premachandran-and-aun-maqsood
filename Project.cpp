@@ -26,7 +26,7 @@ GameMechs *gameMechs = new GameMechs();
 objPos drawBoard{0,0,0};
 
 Player *player = new Player(gameMechs); 
-objPos playerPos;
+objPosArrayList *playerPos;
 objPos foodPos;
 
 // Iteration 1

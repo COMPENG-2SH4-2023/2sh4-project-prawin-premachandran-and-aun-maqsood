@@ -1,15 +1,18 @@
 #include "Player.h"
 #include "GameMechs.h"
 #include "MacUILib.h"
+#include "objPosArrayList.h"
 
 #define DELAY_CONST 1000000
 
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
-    playerPos.x = mainGameMechsRef->getBoardSizeX() / 2;
-    playerPos.y = mainGameMechsRef->getBoardSizeY() / 2;
-    playerPos.symbol = '@';
+   
+    playerPos.symbol = '*';
+    playerPosList = new objPosArrayList();
+    playerPosList -> getHeadElement(playerPos);
+    
 
     myDir = STOP;
 
@@ -25,10 +28,10 @@ Player::~Player()
     // delete any heap members here
 }
 
-void Player::getPlayerPos(objPos &returnPos)
+void Player::getPlayerPos(objPosArrayList* returnPos)
 {
     
-    returnPos = playerPos;
+    returnPos = playerPosList;
     // return the reference to the playerPos arrray list
 }
 
@@ -88,6 +91,7 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+     
     int height = mainGameMechsRef->getBoardSizeY();
     int width = mainGameMechsRef->getBoardSizeX();
 
@@ -106,6 +110,8 @@ void Player::movePlayer()
             case UP:
                 if (playerPos.y > 1) {
                     playerPos.y--;
+                    playerPosList->insertHead(playerPos);
+                    playerPosList->removeTail();
                 }
                 else {
                     playerPos.y = height - 2;
@@ -114,14 +120,20 @@ void Player::movePlayer()
             case DOWN:
                 if (playerPos.y < height - 2) {
                     playerPos.y++;
+                    playerPosList->insertHead(playerPos);
+                    playerPosList->removeTail();
                 }
                 else {
                     playerPos.y = 1;
+                    playerPosList->insertHead(playerPos);
+                    playerPosList->removeTail();
                 }
                 break;
             case LEFT:
                 if (playerPos.x > 1) {
                     playerPos.x--;
+                    playerPosList->insertHead(playerPos);
+                    playerPosList->removeTail();
                 }
                 else {
                     playerPos.x = width - 2;
@@ -130,6 +142,9 @@ void Player::movePlayer()
             case RIGHT:
                 if (playerPos.x < width - 2) {
                     playerPos.x++;
+                    playerPosList->insertHead(playerPos);
+                    playerPosList->removeTail();
+                    
                 }
                 else {
                     playerPos.x = 1;

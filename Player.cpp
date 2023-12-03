@@ -34,26 +34,26 @@ void Player::getPlayerPos(objPos &returnPos)
 
 void Player::updatePlayerDir()
 {
-    char input = mainGameMechsRef -> getInput();
-    bool exitFlag = mainGameMechsRef -> getExitFlagStatus();
+    char input = mainGameMechsRef->getInput();
+    bool exitFlag = mainGameMechsRef->getExitFlagStatus();
 
-      if (input != 0) // if not null character
+    if (input != 0) // if not null character
     {
+        // Add more key processing here
+        // Add more key processing here
+        // Add more key processing here 
+
         switch (input)
         {
             case ' ': // exit
                 exitFlag = 1;
                 break;
 
-            // Add more key processing here
-            // Add more key processing here
-            // Add more key processing here 
-
             case 'W':
             case 'w':
                 if (myDir != DOWN)
                 {
-                    myDir= UP;
+                    myDir = UP;
                 }
                 break;
             case 'S':
@@ -62,7 +62,7 @@ void Player::updatePlayerDir()
                 {
                     myDir = DOWN;
                 }
-                    break;
+                break;
             case 'A':
             case 'a':
                 if (myDir != RIGHT)
@@ -86,27 +86,38 @@ void Player::updatePlayerDir()
     // PPA3 input processing logic        
 }
 
+int speed_adjustment = 0;
+
 void Player::movePlayer()
 {
-    int height = mainGameMechsRef -> getBoardSizeY();
-    int width = mainGameMechsRef -> getBoardSizeX();
-     if (myDir != INITIAL)
+    int height = mainGameMechsRef->getBoardSizeY();
+    int width = mainGameMechsRef->getBoardSizeX();
+
+    if (myDir != INITIAL)
     {
+        //to avoid overflow
+        if (speed_adjustment > 1000){
+            speed_adjustment = 0;
+        }
+        speed_adjustment++;
+        //reduces player speed by a factor of 5
+        if (speed_adjustment % 5 == 0){
+
         switch (myDir)
         {
             case UP:
                 if (playerPos.y > 1) {
                     playerPos.y--;
                 }
-                else{
+                else {
                     playerPos.y = height - 2;
                 }
                 break;
             case DOWN:
-                if (playerPos.y <   height - 2) {
+                if (playerPos.y < height - 2) {
                     playerPos.y++;
                 }
-                else{
+                else {
                     playerPos.y = 1;
                 }
                 break;
@@ -114,7 +125,7 @@ void Player::movePlayer()
                 if (playerPos.x > 1) {
                     playerPos.x--;
                 }
-                else{
+                else {
                     playerPos.x = width - 2;
                 }
                 break;
@@ -122,17 +133,14 @@ void Player::movePlayer()
                 if (playerPos.x < width - 2) {
                     playerPos.x++;
                 }
-                else{
+                else {
                     playerPos.x = 1;
                 }
                 break;
             default:
                 break;
-        }
-        MacUILib_Delay(DELAY_CONST);
+        }}
     }
 
-    
     // PPA3 Finite State Machine logic
 }
-

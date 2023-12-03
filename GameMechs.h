@@ -25,8 +25,10 @@ class GameMechs
         
         int boardSizeX;
         int boardSizeY;
+        int speed_adjustment;
         int score;
-        struct objPos foodPos;
+        
+        objPos foodPos;
 
     public:
         GameMechs();
@@ -46,6 +48,9 @@ class GameMechs
         int getBoardSizeY();
         int getScore();
         void incrementScore();
+
+        void generateFood(objPos blockOff);
+        void getFoodPos(objPos& returnPos);
 
         // void getFoodPos();
       

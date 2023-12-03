@@ -1,10 +1,25 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
 
+void GameMechs::generateFood(objPos blockOff) {
+    // Implement your random food generation logic here
+    // Make sure it does not generate food on the player (blockOff)
+
+    // Example random generation:
+    foodPos.x = rand() % (getBoardSizeX() - 2) + 1;
+    foodPos.y = rand() % (getBoardSizeY() - 2) + 1;
+    foodPos.symbol = 'O'; // You can use any symbol for food
+    
+}
+
+void GameMechs::getFoodPos(objPos& returnPos) {
+    returnPos = foodPos;
+}
+
 GameMechs::GameMechs()
 {
-    boardSizeX = 30;
-    boardSizeY = 15;
+    boardSizeX = 20;
+    boardSizeY = 10;
     exitFlag = false;
     loseFlag = false;
     score = 0;

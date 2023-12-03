@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define DELAY_CONST 10000000
+#define DELAY_CONST 100000
 
 bool exitFlag = false;
 
@@ -21,16 +21,20 @@ void CleanUp(void);
 
 int x;
 int y;
+
 GameMechs *gameMechs = new GameMechs();
 objPos drawBoard{0,0,0};
 
 Player *player = new Player(gameMechs); 
 objPos playerPos;
-objPos item1{1,1,'A'};
-objPos item2{2,2,'B'};
-objPos item3{3,3,'C'};
-objPos item4{4,4,'D'};
-objPos item5{5,5,'E'};
+objPos foodPos;
+
+// Iteration 1
+// objPos item1{1,1,'A'};
+// objPos item2{2,2,'B'};
+// objPos item3{3,3,'C'};
+// objPos item4{4,4,'D'};
+// objPos item5{5,5,'E'};
 
 int main(void)
 {
@@ -39,9 +43,8 @@ int main(void)
 
     while(!exitFlag)  
     {
-        LoopDelay();
         player->getPlayerPos(playerPos);
-        LoopDelay();
+        gameMechs->getFoodPos(foodPos);
         GetInput();
         RunLogic();
         DrawScreen();
@@ -61,6 +64,9 @@ void Initialize(void)
     exitFlag = gameMechs -> getExitFlagStatus();
     player -> getPlayerPos(playerPos);
 
+    gameMechs->generateFood(foodPos);
+    gameMechs->getFoodPos(foodPos);
+
 }
 
 void GetInput(void)
@@ -75,38 +81,51 @@ void RunLogic(void)
     player->updatePlayerDir();
     // Remove gameMechs->clearInput(); from here
     player->movePlayer();
+
+    if (playerPos.isPosEqual(&foodPos)){
+        gameMechs->generateFood(foodPos);
+    }
 }
 
 void DrawScreen(void)
 {
+// Ensure foodPos is initialized and updated
+    // gameMechs->generateFood(playerPos);
+    // objPos foodPos;
+    gameMechs->getFoodPos(foodPos);
+
     cout << "Player position: (" << playerPos.x << ", " << playerPos.y << ")" << endl;
     MacUILib_clearScreen(); 
-     for (drawBoard.y = 0; drawBoard.y < HEIGHT; (drawBoard.y)++) {
+    for (drawBoard.y = 0; drawBoard.y < HEIGHT; (drawBoard.y)++) {
         for (drawBoard.x = 0; drawBoard.x < WIDTH; (drawBoard.x)++) {
             if (drawBoard.x == 0 || drawBoard.x == WIDTH - 1 || drawBoard.y == 0 || drawBoard.y == HEIGHT - 1) {
                 cout << '#';
             }
-            else if (drawBoard.isPosEqual( &playerPos )) {
+            // Draw food
+            else if (drawBoard.isPosEqual(&foodPos)) {
+                cout << foodPos.getSymbol();
+            }
+            else if (drawBoard.isPosEqual(&playerPos)) {
                 cout << playerPos.getSymbol();
             }
-            else if (drawBoard.isPosEqual(&item1)){
-                cout << item1.getSymbol();
-            }
-             else if (drawBoard.isPosEqual(&item2)) {
-                cout << item2.getSymbol();
-            }
-            else if (drawBoard.isPosEqual(&item3)) {
-                 cout << item3.getSymbol();
+            // else if (drawBoard.isPosEqual(&item1)){
+            //     cout << item1.getSymbol();
+            // }
+            // else if (drawBoard.isPosEqual(&item2)) {
+            //     cout << item2.getSymbol();
+            // }
+            // else if (drawBoard.isPosEqual(&item3)) {
+            //      cout << item3.getSymbol();
 
-            }
-             else if (drawBoard.isPosEqual(&item4)) {
-                    cout << item4.getSymbol();
+            // }
+            // else if (drawBoard.isPosEqual(&item4)) {
+            //         cout << item4.getSymbol();
 
-            }
-             else if (drawBoard.isPosEqual(&item5)) {
-                cout << item5.getSymbol();
+            // }
+            // else if (drawBoard.isPosEqual(&item5)) {
+            //     cout << item5.getSymbol();
 
-            }
+            // }
             else {
                 cout << " ";
                  

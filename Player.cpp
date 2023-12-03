@@ -86,8 +86,6 @@ void Player::updatePlayerDir()
     // PPA3 input processing logic        
 }
 
-int speed_adjustment = 0;
-
 void Player::movePlayer()
 {
     int height = mainGameMechsRef->getBoardSizeY();

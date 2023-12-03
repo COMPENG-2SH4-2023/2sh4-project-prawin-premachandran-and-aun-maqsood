@@ -24,9 +24,14 @@ class Player
         void movePlayer();
 
     private:
-        objPos playerPos;   // Upgrade this in iteration 3.       
+        objPos playerPos;   // Upgrade this in iteration 3.
+
+        objPosArrayList* playerPosList;  // New member for snake body
+              
         enum Dir myDir;
 
+        int speed_adjustment = 0;
+        
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
 };

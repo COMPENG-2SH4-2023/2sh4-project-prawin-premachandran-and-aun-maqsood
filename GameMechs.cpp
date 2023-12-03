@@ -22,8 +22,8 @@ GameMechs::GameMechs(int boardX, int boardY)
 
 // do you need a destructor?
 
-// ~GameMechs() {
-//         // Destructor
+// GameMechs::~GameMechs() {
+// // Destructor
 // }
 
 
@@ -45,7 +45,7 @@ char GameMechs::getInput()
 
 int GameMechs::getBoardSizeX()
 {
-    // return boardSizeX;
+    return boardSizeX;
 }
 
 int GameMechs::getBoardSizeY()
@@ -71,9 +71,9 @@ void GameMechs::clearInput()
     input = 0;
 }
 
-// int GameMechs::getScore() { return score; }
+int GameMechs::getScore() { return score; }
 
-// void GameMechs::incrementScore() { score++; }
+void GameMechs::incrementScore() { score++; }
 
     
 // void GameMechs::generateFood(objPos blockOff) {

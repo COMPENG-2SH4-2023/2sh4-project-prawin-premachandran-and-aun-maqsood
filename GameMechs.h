@@ -36,7 +36,7 @@ class GameMechs
         bool getLoseFlagStatus();
         void setExitTrue();
         void setLoseFlag();
-        void generateFood();
+        // void generateFood();
 
         char getInput();
         void setInput(char this_input);
@@ -45,9 +45,9 @@ class GameMechs
         int getBoardSizeX();
         int getBoardSizeY();
         int getScore();
-        int incrementScore();
+        void incrementScore();
 
-        void getFoodPos();
+        // void getFoodPos();
       
 
 };

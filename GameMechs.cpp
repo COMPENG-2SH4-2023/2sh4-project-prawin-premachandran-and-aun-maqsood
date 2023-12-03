@@ -19,8 +19,8 @@ void GameMechs::getFoodPos(objPos& returnPos) {
 
 GameMechs::GameMechs()
 {
-    boardSizeX = 20;
-    boardSizeY = 10;
+    boardSizeX = 30;
+    boardSizeY = 15;
     exitFlag = false;
     loseFlag = false;
     score = 0;

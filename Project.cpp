@@ -3,8 +3,8 @@
 #include "objPos.h"
 #include "Player.h"
 #include "GameMechs.h"
-#define WIDTH 20
-#define HEIGHT 10
+#define WIDTH 30
+#define HEIGHT 15
 
 using namespace std;
 

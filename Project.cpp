@@ -25,50 +25,42 @@ int y;
 GameMechs *gameMechs = new GameMechs();
   
 Player *player = new Player(gameMechs); 
-objPos playerElement{0,0,0};
+objPos playerElement{0, 0, 0};
 objPosArrayList *playerPos;
 objPos foodPos;
 
-// Iteration 1
-// objPos item1{1,1,'A'};
-// objPos item2{2,2,'B'};
-// objPos item3{3,3,'C'};
-// objPos item4{4,4,'D'};
-// objPos item5{5,5,'E'};
-
 int main(void)
 {
-
     Initialize();
 
-    while(!gameMechs->getExitFlagStatus())  
+    while (!gameMechs->getExitFlagStatus())
     {
-        
+        // updates player and food position for every loop
+        gameMechs->getFoodPos(foodPos);
+
         GetInput();
         RunLogic();
         DrawScreen();
         LoopDelay();
 
-        //end game message
-        if (gameMechs -> getExitFlagStatus()){
+        // end game message
+        if (gameMechs->getExitFlagStatus())
+        {
             cout << "Game Over! Thank you for playing :)" << endl;
-            MacUILib_Delay(1000*DELAY_CONST);
-        } 
+        }
     }
 
-    //CleanUp();
-
+    // CleanUp();
 }
-
 
 void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
 
+    exitFlag = gameMechs->getExitFlagStatus();
     gameMechs->generateFood(foodPos);
     gameMechs->getFoodPos(foodPos);
-
 }
 
 void GetInput(void)
@@ -76,98 +68,97 @@ void GetInput(void)
     gameMechs->clearInput();
     char input = gameMechs->getInput();
     gameMechs->setInput(input);
+
+    // Check for spacebar input to set the exitFlag directly
+    if (input == ' ')
+    {
+        exitFlag = true;
+        cout << "ExitFlag set to true." << endl;
+    }
 }
 
 void RunLogic(void)
 {
- 
     player->updatePlayerDir();
-
     player->movePlayer();
 
-    // if (playerPos.isPosEqual(&foodPos)){
-    //     gameMechs->generateFood(foodPos);
-    //     gameMechs->incrementScore();
-    // }
+    objPosArrayList *playerPosList = player->getPlayerPos(); // Get the playerPosList
+
+    objPos headPos;
+    playerPosList->getHeadElement(headPos);
+
+    if (headPos.isPosEqual(&foodPos))
+    {
+        // The player ate the food, generate a new food position
+        gameMechs->generateFood(foodPos);
+        gameMechs->getFoodPos(foodPos);
+        gameMechs->incrementScore();
+    }
 }
 
 void DrawScreen(void)
 {
-    // prints and updates score
-    MacUILib_printf("Score: %d\n", gameMechs->getScore());
-    objPos tempPos;
-    // cout << "Player position: (" << playerPos.x << ", " << playerPos.y << ")" << endl;
+    // prints and updates score (for every loop)
+    cout << "Current Score: " << gameMechs->getScore() << endl;
 
-    // Draws game board screen (20 x 10)
-    MacUILib_clearScreen(); 
-  
+    //prints rest of screen elements
+    cout << "==============================" << endl;
+    cout << "Prawin & Aun's Final Project" << endl;
+    cout << "==============================" << endl;
+    cout << "Board Size: " << gameMechs->getBoardSizeX() << " X " << gameMechs->getBoardSizeY() << endl;
+
+    // Clears screen for every loop (frame)
+    MacUILib_clearScreen();
+
+    //declaring variables
     objPosArrayList *drawBoardList = player->getPlayerPos();
     objPos currentIndex;
-   objPos drawBoard{0,0,0};
-   bool hasRun = false;
+    objPos drawBoard{0, 0, 0};
 
-    
-    for (drawBoard.y = 0; drawBoard.y < HEIGHT; (drawBoard.y)++) {
-        for (drawBoard.x = 0; drawBoard.x < WIDTH; (drawBoard.x)++) {
+    //boolean which checks if each element on game board has been printed (except spaces)
+    //initially set to false
+    bool hasRun = false;
+
+    for (drawBoard.y = 0; drawBoard.y < HEIGHT; (drawBoard.y)++)
+    {
+        for (drawBoard.x = 0; drawBoard.x < WIDTH; (drawBoard.x)++)
+        {
             hasRun = false;
-            
-            if (drawBoard.x == 0 || drawBoard.x == WIDTH-1 || drawBoard.y == 0 || drawBoard.y == HEIGHT - 1 && hasRun == false) {
+
+            //Print board outline
+            if (drawBoard.x == 0 || drawBoard.x == WIDTH - 1 || drawBoard.y == 0 || drawBoard.y == HEIGHT - 1 && hasRun == false)
+            {
                 MacUILib_printf("%c", '#');
+                //set to true to avoid repeating
                 hasRun = true;
-               
             }
-            // Draw food
-            else if (drawBoard.isPosEqual(&foodPos) && hasRun == false) {
+
+            // Print food
+            else if (drawBoard.isPosEqual(&foodPos) && hasRun == false)
+            {
                 MacUILib_printf("%c", foodPos.getSymbol());
                 hasRun = true;
             }
-        
-           
-            
-              
-            for (int i = 0; i < drawBoardList -> getSize(); i++) {
-                
-                drawBoardList -> getElement(currentIndex,i);
-                if (drawBoard.isPosEqual(&currentIndex) && hasRun == false) {
+
+            // Print player symbol
+            for (int i = 0; i < drawBoardList->getSize(); i++)
+            {
+                drawBoardList->getElement(currentIndex, i);
+                if (drawBoard.isPosEqual(&currentIndex) && hasRun == false)
+                {
                     MacUILib_printf("%c", currentIndex.getSymbol());
                     hasRun = true;
-                   
                 }
             }
-            if (drawBoard.x >=1 && drawBoard.y < HEIGHT -1 && hasRun == false){
-                
-                               MacUILib_printf("%c",' ');
 
-
+            //Print spaces
+            if (drawBoard.x >= 1 && drawBoard.y < HEIGHT - 1 && hasRun == false)
+            {
+                MacUILib_printf("%c", ' ');
             }
-
-             
-            
-            // else if (drawBoard.isPosEqual(&item1)){
-            //     cout << item1.getSymbol();
-            // }
-            // else if (drawBoard.isPosEqual(&item2)) {
-            //     cout << item2.getSymbol();
-            // }
-            // else if (drawBoard.isPosEqual(&item3)) {
-            //      cout << item3.getSymbol();
-
-            // }
-            // else if (drawBoard.isPosEqual(&item4)) {
-            //         cout << item4.getSymbol();
-
-            // }
-            // else if (drawBoard.isPosEqual(&item5)) {
-            //     cout << item5.getSymbol();
-
-            // }
-            
-                 
-            
         }
-        MacUILib_printf("%c",'\n');
-    }   
-
+        MacUILib_printf("%c", '\n');
+    }
 }
 
 void LoopDelay(void)
@@ -175,10 +166,9 @@ void LoopDelay(void)
     MacUILib_Delay(DELAY_CONST); // 0.1s delay
 }
 
-
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
-  
+    MacUILib_clearScreen();
+
     MacUILib_uninit();
 }

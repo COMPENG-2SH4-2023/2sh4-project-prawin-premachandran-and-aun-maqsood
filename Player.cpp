@@ -13,11 +13,9 @@ Player::Player(GameMechs* thisGMRef)
     playerPosList = new objPosArrayList();
     playerPosList -> getHeadElement(playerPos);
     
-
+    // the player is initially stationary
     myDir = STOP;
 
-
-    // more actions to be included
 }
 
 
@@ -30,21 +28,22 @@ Player::~Player()
 
 objPosArrayList* Player::getPlayerPos()
 {
-    
+    // returns the reference to the playerPos arrray list
     return playerPosList;
-    // return the reference to the playerPos arrray list
 }
 
 void Player::increasePlayerLength(){
-        // Get the current head position of the player
+    // gets the current head position of the player
     objPos headPos;
     playerPosList->getHeadElement(headPos);
 
-    // Create a new position for the new head
+    // creating a new position for the new head
     objPos newHeadPos;
 
-    // Adjust the new head position based on the current direction of the player
+    // checks the direction of the player
+    // determines where the new head of the snake will be added (based on the direction)
     switch (myDir) {
+        //creating a set of coordinates for the new head
         case UP:
             newHeadPos.x = headPos.x;
             newHeadPos.y = headPos.y - 1;
@@ -62,18 +61,13 @@ void Player::increasePlayerLength(){
             newHeadPos.y = headPos.y;
             break;
         default:
-            // If the current direction is not set, do nothing
+            // if current direction isnt set (e.g. stationary), do nothing
             return;
     }
 
-    // Insert the new head position to the front of the player's position list
+    // adds the new head position to the front of the player's position list
     playerPosList->insertHead(newHeadPos);
 }
-
-// bool Player::checkSelfCollision(){
-//     if head = tail
-
-// }
 
 void Player::updatePlayerDir()
 {
@@ -82,9 +76,7 @@ void Player::updatePlayerDir()
 
     if (input != 0) // if not null character
     {
-        // Add more key processing here
-        // Add more key processing here
-        // Add more key processing here 
+        // PPA3 input processing logic
 
         switch (input)
         {
@@ -125,32 +117,34 @@ void Player::updatePlayerDir()
                 break;
         }
         input = 0;
-    }
-    // PPA3 input processing logic        
+    }        
 }
 
 void Player::movePlayer()
 {
-     
+    //declaring variables
+    //will be needed for wraparound function
     int height = mainGameMechsRef->getBoardSizeY();
     int width = mainGameMechsRef->getBoardSizeX();
 
+    // PPA3 Finite State Machine logic
     if (myDir != INITIAL)
     {
-      
-        
-
         switch (myDir)
         {
             case UP:
                 if (playerPos.y > 1) {
                     playerPos.y--;
+                    // movement logic for snake (used for all cases)
                     playerPosList->insertHead(playerPos);
                     playerPosList->removeTail();
                 }
+                //wraparound implementation
+                //if snake reaches top of the board, it will set the snake position back to bottom
                 else {
                     playerPos.y = height - 2;
                 }
+                //this wraparound logic is used for all cases below in a similar manner
                 break;
             case DOWN:
                 if (playerPos.y < height - 2) {
@@ -188,5 +182,4 @@ void Player::movePlayer()
                 break;
         }
     }
-    // PPA3 Finite State Machine logic
 }

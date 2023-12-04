@@ -38,7 +38,6 @@ class GameMechs
         bool getLoseFlagStatus();
         void setExitTrue();
         void setLoseFlag();
-        // void generateFood();
 
         char getInput();
         void setInput(char this_input);
@@ -51,10 +50,6 @@ class GameMechs
 
         void generateFood(objPos blockOff);
         void getFoodPos(objPos& returnPos);
-
-        // void getFoodPos();
-      
-
 };
 
 #endif

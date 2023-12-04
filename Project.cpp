@@ -10,6 +10,7 @@ using namespace std;
 
 #define DELAY_CONST 100000
 
+//initializes exit flag
 bool exitFlag = false;
 
 void Initialize(void);
@@ -19,11 +20,9 @@ void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
 
-int x;
-int y;
-
 GameMechs *gameMechs = new GameMechs();
-  
+
+//declares variables for use
 Player *player = new Player(gameMechs); 
 objPos playerElement{0, 0, 0};
 objPosArrayList *playerPos;
@@ -33,24 +32,26 @@ int main(void)
 {
     Initialize();
 
-    while (!gameMechs->getExitFlagStatus())
+    // game keeps on running until either the exit command (space bar) is pressed or the player loses
+    while (!gameMechs->getExitFlagStatus() && !gameMechs->getLoseFlagStatus())
     {
-        // updates player and food position for every loop
+        // updates food position for every frame/loop
         gameMechs->getFoodPos(foodPos);
 
+        //goes through the functions for each frame (loop)
         GetInput();
         RunLogic();
         DrawScreen();
         LoopDelay();
 
-        // end game message
-        if (gameMechs->getExitFlagStatus())
+        // custom end game message
+        if (gameMechs->getExitFlagStatus() || gameMechs->getLoseFlagStatus())
         {
             cout << "Game Over! Thank you for playing :)" << endl;
         }
     }
 
-    // CleanUp();
+    CleanUp();
 }
 
 void Initialize(void)
@@ -58,42 +59,38 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    exitFlag = gameMechs->getExitFlagStatus();
+    // initially generates food on board at random position
     gameMechs->generateFood(foodPos);
     gameMechs->getFoodPos(foodPos);
 }
 
 void GetInput(void)
 {
+    // gets input from user and stores it
     gameMechs->clearInput();
     char input = gameMechs->getInput();
     gameMechs->setInput(input);
-
-    // Check for spacebar input to set the exitFlag directly
-    if (input == ' ')
-    {
-        exitFlag = true;
-        cout << "ExitFlag set to true." << endl;
-    }
 }
 
 void RunLogic(void)
 {
+    //updates direction for every frame (loop)
     player->updatePlayerDir();
     player->movePlayer();
 
-    objPosArrayList *playerPosList = player->getPlayerPos(); // Get the playerPosList
+    objPosArrayList *playerPosList = player->getPlayerPos(); // get the playerPosList
 
     objPos headPos;
     playerPosList->getHeadElement(headPos);
 
+    // checks if player and food collides
+    // executes the if statement when true
     if (headPos.isPosEqual(&foodPos))
     {
-        // The player ate the food, generate a new food position
-        gameMechs->generateFood(foodPos);
+        gameMechs->generateFood(foodPos); // generates a new food position
         gameMechs->getFoodPos(foodPos);
-        gameMechs->incrementScore();
-        player->increasePlayerLength();
+        gameMechs->incrementScore(); // adds +1 to score
+        player->increasePlayerLength(); // increases snake length
 
     }
 }
@@ -112,7 +109,7 @@ void DrawScreen(void)
     // Clears screen for every loop (frame)
     MacUILib_clearScreen();
 
-    //declaring variables
+    //declaring and initializing variables which will be used
     objPosArrayList *drawBoardList = player->getPlayerPos();
     objPos currentIndex;
     objPos drawBoard{0, 0, 0};
@@ -127,22 +124,22 @@ void DrawScreen(void)
         {
             hasRun = false;
 
-            //Print board outline
+            //trints board outline
             if (drawBoard.x == 0 || drawBoard.x == WIDTH - 1 || drawBoard.y == 0 || drawBoard.y == HEIGHT - 1 && hasRun == false)
             {
                 MacUILib_printf("%c", '#');
-                //set to true to avoid repeating
+                //sets to true to avoid repeating
                 hasRun = true;
             }
 
-            // Print food
+            // Prints the food position
             else if (drawBoard.isPosEqual(&foodPos) && hasRun == false)
             {
                 MacUILib_printf("%c", foodPos.getSymbol());
                 hasRun = true;
             }
 
-            // Print player symbol
+            // prints the snake (goes through each symbol in array list)
             for (int i = 0; i < drawBoardList->getSize(); i++)
             {
                 drawBoardList->getElement(currentIndex, i);
@@ -153,7 +150,7 @@ void DrawScreen(void)
                 }
             }
 
-            //Print spaces
+            // prints spaces for the rest of the items in the game board
             if (drawBoard.x >= 1 && drawBoard.y < HEIGHT - 1 && hasRun == false)
             {
                 MacUILib_printf("%c", ' ');
@@ -170,7 +167,7 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();
+    //MacUILib_clearScreen();
 
     MacUILib_uninit();
 }

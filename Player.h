@@ -20,14 +20,14 @@ class Player
         
         ~Player();
 
-        objPosArrayList* getPlayerPos(); // Upgrade this in iteration 3.
+        objPosArrayList* getPlayerPos();
         void updatePlayerDir();
         void movePlayer();
         void increasePlayerLength();
         // bool checkSelfCollision();
 
     private:
-        objPos playerPos;   // Upgrade this in iteration 3.
+        objPos playerPos;
 
         objPosArrayList* playerPosList;  // New member for snake body
               
@@ -35,7 +35,6 @@ class Player
 
         int speed_adjustment = 0;
         
-        // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
 };
 

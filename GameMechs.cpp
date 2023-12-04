@@ -4,11 +4,12 @@
 
 void GameMechs::generateFood(objPos blockOff) {
 
+    //generates a random set of food coordinates
     do {
         foodPos.x = rand() % (getBoardSizeX() - 2) + 1;
         foodPos.y = rand() % (getBoardSizeY() - 2) + 1;
         foodPos.symbol = 'O';
-    } while (foodPos.isPosEqual(&blockOff));
+    } while (foodPos.isPosEqual(&blockOff)); // generates new food coordinates until it doesn't overlap snake position
 }
 
 void GameMechs::getFoodPos(objPos& returnPos) {
@@ -33,7 +34,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     score = 0;
 }
 
-// do you need a destructor?
+// do you need a destructor? No, it is not needed. So we commented it out.
 
 // GameMechs::~GameMechs() {
 //         // Destructor
@@ -44,7 +45,9 @@ bool GameMechs::getExitFlagStatus()
     return exitFlag;
 }
 
-bool GameMechs::getLoseFlagStatus() { return loseFlag; }
+bool GameMechs::getLoseFlagStatus() { 
+    return loseFlag; 
+}
     
 char GameMechs::getInput()
 {
@@ -64,14 +67,14 @@ int GameMechs::getBoardSizeY()
     return boardSizeY;
 }
 
-
 void GameMechs::setExitTrue()
 {
     exitFlag = true;
-    // std::cout << "Game over!" << std::endl;
 }
 
-void GameMechs::setLoseFlag() { loseFlag = true; }
+void GameMechs::setLoseFlag(){ 
+    loseFlag = true; 
+}
 
 void GameMechs::setInput(char this_input)
 {

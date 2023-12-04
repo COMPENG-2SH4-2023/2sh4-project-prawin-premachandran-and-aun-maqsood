@@ -69,6 +69,25 @@ void Player::increasePlayerLength(){
     playerPosList->insertHead(newHeadPos);
 }
 
+bool Player::checkSelfCollision(){
+    objPos playerHead;
+    playerPosList->getHeadElement(playerHead);
+
+    // iterate through the player's body segments (excluding the head)
+  
+    for (int i = 2; i < playerPosList->getSize(); i++) {
+        objPos playerSegment;
+        playerPosList->getElement(playerSegment, i);
+
+        // checks if the head position matches any body segment
+        if ( playerHead.x == playerSegment.x && playerHead.y == playerSegment.y) {
+            return true; // self-collision detected
+        }
+    }
+
+    return false; 
+}
+
 void Player::updatePlayerDir()
 {
     char input = mainGameMechsRef->getInput();
@@ -126,6 +145,12 @@ void Player::movePlayer()
     //will be needed for wraparound function
     int height = mainGameMechsRef->getBoardSizeY();
     int width = mainGameMechsRef->getBoardSizeX();
+
+    //checks for collision
+    if (checkSelfCollision()){
+        mainGameMechsRef -> setExitTrue();
+        mainGameMechsRef->setLoseFlag();
+    }
 
     // PPA3 Finite State Machine logic
     if (myDir != INITIAL)

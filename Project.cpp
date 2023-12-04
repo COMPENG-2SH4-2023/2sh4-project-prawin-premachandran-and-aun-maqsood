@@ -33,7 +33,7 @@ int main(void)
     Initialize();
 
     // game keeps on running until either the exit command (space bar) is pressed or the player loses
-    while (!gameMechs->getExitFlagStatus() && !gameMechs->getLoseFlagStatus())
+    while (!gameMechs->getExitFlagStatus())
     {
         // updates food position for every frame/loop
         gameMechs->getFoodPos(foodPos);
@@ -45,7 +45,7 @@ int main(void)
         LoopDelay();
 
         // custom end game message
-        if (gameMechs->getExitFlagStatus() || gameMechs->getLoseFlagStatus())
+        if (gameMechs->getExitFlagStatus())
         {
             cout << "Game Over! Thank you for playing :)" << endl;
         }
@@ -60,6 +60,7 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     // initially generates food on board at random position
+    exitFlag = gameMechs->getExitFlagStatus();
     gameMechs->generateFood(foodPos);
     gameMechs->getFoodPos(foodPos);
 }

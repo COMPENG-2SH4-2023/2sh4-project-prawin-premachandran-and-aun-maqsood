@@ -9,11 +9,9 @@
 objPosArrayList::objPosArrayList()
 {
     aList = new objPos[arrayCapacity];
-    sizeList = 3;
+    sizeList = 2;
     sizeArray = arrayCapacity;
     aList->symbol = '*';
-
-
 
 
 

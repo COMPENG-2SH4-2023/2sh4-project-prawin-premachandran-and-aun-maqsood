@@ -23,9 +23,9 @@ int x;
 int y;
 
 GameMechs *gameMechs = new GameMechs();
-objPos drawBoard{0,0,0};
-
+  
 Player *player = new Player(gameMechs); 
+objPos playerElement{0,0,0};
 objPosArrayList *playerPos;
 objPos foodPos;
 
@@ -41,17 +41,16 @@ int main(void)
 
     Initialize();
 
-    while(!exitFlag)  
+    while(!gameMechs->getExitFlagStatus())  
     {
-        player->getPlayerPos(playerPos);
-        gameMechs->getFoodPos(foodPos);
+        
         GetInput();
         RunLogic();
         DrawScreen();
         LoopDelay();
 
         //end game message
-        if (exitFlag == 1){
+        if (gameMechs -> getExitFlagStatus()){
             cout << "Game Over! Thank you for playing :)" << endl;
             MacUILib_Delay(1000*DELAY_CONST);
         } 
@@ -66,8 +65,6 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    exitFlag = gameMechs -> getExitFlagStatus();
-    player -> getPlayerPos(playerPos);
 
     gameMechs->generateFood(foodPos);
     gameMechs->getFoodPos(foodPos);
@@ -78,43 +75,74 @@ void GetInput(void)
 {
     gameMechs->clearInput();
     char input = gameMechs->getInput();
-    exitFlag = gameMechs->getExitFlagStatus();  // Update exitFlag using the return value
     gameMechs->setInput(input);
 }
 
 void RunLogic(void)
 {
+ 
     player->updatePlayerDir();
 
     player->movePlayer();
 
-    if (playerPos.isPosEqual(&foodPos)){
-        gameMechs->generateFood(foodPos);
-        gameMechs->incrementScore();
-    }
+    // if (playerPos.isPosEqual(&foodPos)){
+    //     gameMechs->generateFood(foodPos);
+    //     gameMechs->incrementScore();
+    // }
 }
 
 void DrawScreen(void)
 {
     // prints and updates score
-    cout << "Score: " << gameMechs->getScore() << endl;
-
-    cout << "Player position: (" << playerPos.x << ", " << playerPos.y << ")" << endl;
+    MacUILib_printf("Score: %d\n", gameMechs->getScore());
+    objPos tempPos;
+    // cout << "Player position: (" << playerPos.x << ", " << playerPos.y << ")" << endl;
 
     // Draws game board screen (20 x 10)
     MacUILib_clearScreen(); 
+  
+    objPosArrayList *drawBoardList = player->getPlayerPos();
+    objPos currentIndex;
+   objPos drawBoard{0,0,0};
+   bool hasRun = false;
+
+    
     for (drawBoard.y = 0; drawBoard.y < HEIGHT; (drawBoard.y)++) {
         for (drawBoard.x = 0; drawBoard.x < WIDTH; (drawBoard.x)++) {
-            if (drawBoard.x == 0 || drawBoard.x == WIDTH - 1 || drawBoard.y == 0 || drawBoard.y == HEIGHT - 1) {
-                cout << '#';
+            hasRun = false;
+            
+            if (drawBoard.x == 0 || drawBoard.x == WIDTH-1 || drawBoard.y == 0 || drawBoard.y == HEIGHT - 1 && hasRun == false) {
+                MacUILib_printf("%c", '#');
+                hasRun = true;
+               
             }
             // Draw food
-            else if (drawBoard.isPosEqual(&foodPos)) {
-                cout << foodPos.getSymbol();
+            else if (drawBoard.isPosEqual(&foodPos) && hasRun == false) {
+                MacUILib_printf("%c", foodPos.getSymbol());
+                hasRun = true;
             }
-            else if (drawBoard.isPosEqual(&playerPos)) {
-                cout << playerPos.getSymbol();
+        
+           
+            
+              
+            for (int i = 0; i < drawBoardList -> getSize(); i++) {
+                
+                drawBoardList -> getElement(currentIndex,i);
+                if (drawBoard.isPosEqual(&currentIndex) && hasRun == false) {
+                    MacUILib_printf("%c", currentIndex.getSymbol());
+                    hasRun = true;
+                   
+                }
             }
+            if (drawBoard.x >=1 && drawBoard.y < HEIGHT -1 && hasRun == false){
+                
+                               MacUILib_printf("%c",' ');
+
+
+            }
+
+             
+            
             // else if (drawBoard.isPosEqual(&item1)){
             //     cout << item1.getSymbol();
             // }
@@ -133,12 +161,11 @@ void DrawScreen(void)
             //     cout << item5.getSymbol();
 
             // }
-            else {
-                cout << " ";
+            
                  
-            }
+            
         }
-        cout << endl;
+        MacUILib_printf("%c",'\n');
     }   
 
 }

@@ -28,10 +28,10 @@ Player::~Player()
     // delete any heap members here
 }
 
-void Player::getPlayerPos(objPosArrayList* returnPos)
+objPosArrayList* Player::getPlayerPos()
 {
     
-    returnPos = playerPosList;
+    return playerPosList;
     // return the reference to the playerPos arrray list
 }
 
@@ -97,13 +97,8 @@ void Player::movePlayer()
 
     if (myDir != INITIAL)
     {
-        //to avoid overflow
-        if (speed_adjustment > 1000){
-            speed_adjustment = 0;
-        }
-        speed_adjustment++;
-        //reduces player speed by a factor of 5
-        if (speed_adjustment % 5 == 0){
+      
+        
 
         switch (myDir)
         {
@@ -125,8 +120,7 @@ void Player::movePlayer()
                 }
                 else {
                     playerPos.y = 1;
-                    playerPosList->insertHead(playerPos);
-                    playerPosList->removeTail();
+               
                 }
                 break;
             case LEFT:
@@ -152,7 +146,7 @@ void Player::movePlayer()
                 break;
             default:
                 break;
-        }}
+        }
     }
 
     // PPA3 Finite State Machine logic

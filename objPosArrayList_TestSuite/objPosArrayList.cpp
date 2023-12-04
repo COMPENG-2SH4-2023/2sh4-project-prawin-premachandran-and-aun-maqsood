@@ -35,6 +35,8 @@ void objPosArrayList::insertHead(objPos thisPos)
         aList[i] = aList[i -1];
     }
     aList[0] = thisPos;
+    aList[0].symbol = thisPos.symbol;
+
     sizeList++;
 
 }
@@ -45,6 +47,8 @@ void objPosArrayList::insertTail(objPos thisPos)
         return;
     }
     aList[sizeList] = thisPos;
+    aList[sizeList].symbol = thisPos.symbol;
+
     sizeList++;
 
 

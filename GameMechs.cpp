@@ -10,7 +10,7 @@ void GameMechs::generateFood(objPos blockOff) {
     foodPos.x = rand() % (getBoardSizeX() - 2) + 1;
     foodPos.y = rand() % (getBoardSizeY() - 2) + 1;
     foodPos.symbol = 'O'; // You can use any symbol for food
-    
+    //todo (doesn't work)
 }
 
 void GameMechs::getFoodPos(objPos& returnPos) {

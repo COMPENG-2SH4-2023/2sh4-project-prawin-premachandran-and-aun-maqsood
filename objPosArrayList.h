@@ -15,6 +15,7 @@ class objPosArrayList
 
     public:
         objPosArrayList();
+        objPosArrayList(const objPosArrayList &arrayVar);
         ~objPosArrayList();
 
         int getSize();

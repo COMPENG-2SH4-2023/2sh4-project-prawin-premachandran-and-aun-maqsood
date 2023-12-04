@@ -9,7 +9,7 @@
 objPosArrayList::objPosArrayList()
 {
     aList = new objPos[arrayCapacity];
-    sizeList = 1;
+    sizeList = 3;
     sizeArray = arrayCapacity;
     aList->symbol = '*';
 
@@ -17,6 +17,14 @@ objPosArrayList::objPosArrayList()
 
 
 
+}
+objPosArrayList::objPosArrayList(const objPosArrayList &arrayVar){
+    aList = new objPos[sizeArray];
+    sizeList = arrayVar.sizeList;
+    sizeArray = arrayVar.sizeArray;
+    for(int i = 0; i < sizeList; i++){
+        aList[i] = arrayVar.aList[i];
+    }
 }
 
 objPosArrayList::~objPosArrayList()
@@ -39,6 +47,7 @@ void objPosArrayList::insertHead(objPos thisPos)
         aList[i] = aList[i -1];
     }
     aList[0] = thisPos;
+    aList[0].symbol = thisPos.symbol;
     sizeList++;
 
 }
@@ -49,6 +58,7 @@ void objPosArrayList::insertTail(objPos thisPos)
         return;
     }
     aList[sizeList] = thisPos;
+    aList[0].symbol = thisPos.symbol;
     sizeList++;
 
 

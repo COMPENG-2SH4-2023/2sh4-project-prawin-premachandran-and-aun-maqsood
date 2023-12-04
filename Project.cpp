@@ -93,6 +93,8 @@ void RunLogic(void)
         gameMechs->generateFood(foodPos);
         gameMechs->getFoodPos(foodPos);
         gameMechs->incrementScore();
+        player->increasePlayerLength();
+
     }
 }
 

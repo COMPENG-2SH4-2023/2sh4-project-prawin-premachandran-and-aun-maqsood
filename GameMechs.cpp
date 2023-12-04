@@ -39,7 +39,6 @@ GameMechs::GameMechs(int boardX, int boardY)
 //         // Destructor
 // }
 
-
 bool GameMechs::getExitFlagStatus()
 {
     return exitFlag;

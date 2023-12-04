@@ -35,6 +35,46 @@ objPosArrayList* Player::getPlayerPos()
     // return the reference to the playerPos arrray list
 }
 
+void Player::increasePlayerLength(){
+        // Get the current head position of the player
+    objPos headPos;
+    playerPosList->getHeadElement(headPos);
+
+    // Create a new position for the new head
+    objPos newHeadPos;
+
+    // Adjust the new head position based on the current direction of the player
+    switch (myDir) {
+        case UP:
+            newHeadPos.x = headPos.x;
+            newHeadPos.y = headPos.y - 1;
+            break;
+        case DOWN:
+            newHeadPos.x = headPos.x;
+            newHeadPos.y = headPos.y + 1;
+            break;
+        case LEFT:
+            newHeadPos.x = headPos.x - 1;
+            newHeadPos.y = headPos.y;
+            break;
+        case RIGHT:
+            newHeadPos.x = headPos.x + 1;
+            newHeadPos.y = headPos.y;
+            break;
+        default:
+            // If the current direction is not set, do nothing
+            return;
+    }
+
+    // Insert the new head position to the front of the player's position list
+    playerPosList->insertHead(newHeadPos);
+}
+
+// bool Player::checkSelfCollision(){
+//     if head = tail
+
+// }
+
 void Player::updatePlayerDir()
 {
     char input = mainGameMechsRef->getInput();
@@ -148,6 +188,5 @@ void Player::movePlayer()
                 break;
         }
     }
-
     // PPA3 Finite State Machine logic
 }

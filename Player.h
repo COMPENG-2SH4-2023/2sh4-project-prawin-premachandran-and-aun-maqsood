@@ -23,7 +23,8 @@ class Player
         objPosArrayList* getPlayerPos(); // Upgrade this in iteration 3.
         void updatePlayerDir();
         void movePlayer();
-        
+        void increasePlayerLength();
+        // bool checkSelfCollision();
 
     private:
         objPos playerPos;   // Upgrade this in iteration 3.
